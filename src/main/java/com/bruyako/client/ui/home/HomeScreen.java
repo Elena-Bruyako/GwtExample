@@ -22,7 +22,7 @@ public class HomeScreen extends Composite {
 
     private String userName;
     private OnUserLogoutCallBack listener;
-    private static Logger logger = Logger.getLogger(HomeScreen.class.getName());
+    private final Logger logger = Logger.getLogger(HomeScreen.class.getName());
 
     @UiTemplate("HomeScreen.ui.xml")
     interface HomeScreenUiBinder extends UiBinder<Widget, HomeScreen> {
@@ -52,16 +52,16 @@ public class HomeScreen extends Composite {
         Date date = new Date();
         int hours = date.getHours();
         if (hours >= 6 && hours < 9) {
-            logger.log(Level.INFO, "Hello message is: " + messages.morning(userName));
+            logger.log(Level.INFO, "Hello message was: " + messages.morning(userName));
             return messages.morning(userName);
         } else if (hours >= 9 && hours < 19) {
-            logger.log(Level.INFO, "Hello message is: " + messages.day(userName));
+            logger.log(Level.INFO, "Hello message was: " + messages.day(userName));
             return messages.day(userName);
         } else if (hours >= 19 && hours < 23) {
-            logger.log(Level.INFO, "Hello message is: " + messages.evening(userName));
+            logger.log(Level.INFO, "Hello message was: " + messages.evening(userName));
             return messages.evening(userName);
         } else {
-            logger.log(Level.INFO, "Hello message is: " + messages.night(userName));
+            logger.log(Level.INFO, "Hello message was: " + messages.night(userName));
             return messages.night(userName);
         }
     }
