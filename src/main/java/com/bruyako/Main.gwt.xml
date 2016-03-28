@@ -10,6 +10,7 @@
 
     <extend-property name="locale" values="ru"/>
     <extend-property name="locale" values="ua"/>
+    <set-configuration-property name="locale.useragent" value="Y"/>
 
     <source path="client"/>
     <source path="shared"/>

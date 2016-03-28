@@ -19,9 +19,9 @@ public class Main implements EntryPoint, OnUserLoginCallBack, OnUserLogoutCallBa
     }
 
     @Override
-    public void onUserLogin(User result){
+    public void onUserLogin(String userName){
         RootLayoutPanel.get().clear();
-        RootLayoutPanel.get().add(new HomeScreen(this, result.getName()));
+        RootLayoutPanel.get().add(new HomeScreen(this, userName));
     }
 
     @Override

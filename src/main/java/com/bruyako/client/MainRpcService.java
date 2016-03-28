@@ -13,5 +13,5 @@ import java.util.List;
  */
 @RemoteServiceRelativePath("remoteService")
 public interface MainRpcService extends RemoteService {
-    User getLoggedinUser(String login, String password) throws UsernameNotFoundException;
+    String getLoggedinUserName(String login, String password) throws UsernameNotFoundException;
 }

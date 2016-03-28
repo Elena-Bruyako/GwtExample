@@ -2,6 +2,7 @@ package com.bruyako.server;
 
 import com.bruyako.client.MainRpcService;
 import com.bruyako.server.repository.UserRepository;
+import com.bruyako.server.util.BCrypt;
 import com.bruyako.shared.User;
 import com.bruyako.shared.UsernameNotFoundException;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -14,11 +15,12 @@ public class HomeServlet extends RemoteServiceServlet implements MainRpcService 
     private UserRepository userRepository = new UserRepository();
 
     @Override
-    public User getLoggedinUser(String login, String password) throws UsernameNotFoundException {
+    public String getLoggedinUserName(String login, String password) throws UsernameNotFoundException {
+
         User user = getUserByLogin(login);
 
-        if (user.getPassword().equals(password))
-            return user;
+        if (BCrypt.checkpw(password, user.getPassword()))
+            return user.getName();
 
         throw new UsernameNotFoundException();
     }

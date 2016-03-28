@@ -2,13 +2,11 @@ package com.bruyako.client.ui.login;
 
 import com.bruyako.client.MainRpcService;
 import com.bruyako.client.MainRpcServiceAsync;
-import com.bruyako.client.ui.login.LoginResources;
 import com.bruyako.shared.User;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -69,15 +67,15 @@ public class LoginScreen extends Composite {
     private void tryLoginUser() {
         if (isAuthValid()) {
 
-            gwtService.getLoggedinUser(loginBox.getText(), passwordBox.getText(), new AsyncCallback<User>() {
+            gwtService.getLoggedinUserName(loginBox.getText(), passwordBox.getText(), new AsyncCallback<String>() {
                 @Override
                 public void onFailure(Throwable caught) {
                     Window.alert(loginStrings.unknown());
                 }
 
                 @Override
-                public void onSuccess(User result) {
-                    callBack.onUserLogin(result);
+                public void onSuccess(String userName) {
+                    callBack.onUserLogin(userName);
                 }
             });
 
@@ -99,6 +97,6 @@ public class LoginScreen extends Composite {
     }
 
     public interface OnUserLoginCallBack {
-        public void onUserLogin(User result);
+        public void onUserLogin(String userName);
     }
 }
