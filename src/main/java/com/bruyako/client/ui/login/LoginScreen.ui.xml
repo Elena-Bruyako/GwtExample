@@ -1,8 +1,8 @@
 <ui:UiBinder
         xmlns:ui='urn:ui:com.google.gwt.uibinder'
         xmlns:g='urn:import:com.google.gwt.user.client.ui'>
-    <ui:with field='res' type="com.bruyako.client.ui.login.LoginResources"/>
-    <ui:with field='strings' type="com.bruyako.client.ui.login.LoginStrings"/>
+    <ui:with field='res' type="com.bruyako.client.ui.login.resources.raw.LoginResources"/>
+    <ui:with field='strings' type="com.bruyako.client.ui.login.resources.string.LoginStrings"/>
 
         <g:DockLayoutPanel unit="EM" height="100%">
             <g:north size="12">

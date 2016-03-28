@@ -5,7 +5,12 @@ import com.bruyako.server.repository.UserRepository;
 import com.bruyako.server.util.BCrypt;
 import com.bruyako.shared.User;
 import com.bruyako.shared.UsernameNotFoundException;
+import com.google.gwt.logging.client.SimpleRemoteLogHandler;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import org.apache.log4j.Logger;
+
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
 
 /**
  * Created by brunyatko on 23.03.16.
@@ -19,9 +24,9 @@ public class HomeServlet extends RemoteServiceServlet implements MainRpcService 
 
         User user = getUserByLogin(login);
 
-        if (BCrypt.checkpw(password, user.getPassword()))
+        if (BCrypt.checkpw(password, user.getPassword())) {
             return user.getName();
-
+        }
         throw new UsernameNotFoundException();
     }
 

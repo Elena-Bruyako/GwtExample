@@ -1,4 +1,4 @@
-package com.bruyako.client.ui.login;
+package com.bruyako.client.ui.login.resources.string;
 
 import com.google.gwt.i18n.client.Constants;
 
@@ -21,4 +21,7 @@ public interface LoginStrings extends Constants {
 
     @Key(value = "invalid")
     String invalid();
+
+    @Key(value = "authorization")
+    String authorization();
 }

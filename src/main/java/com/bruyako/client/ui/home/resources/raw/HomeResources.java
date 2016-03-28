@@ -1,4 +1,4 @@
-package com.bruyako.client.ui.home;
+package com.bruyako.client.ui.home.resources.raw;
 
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;

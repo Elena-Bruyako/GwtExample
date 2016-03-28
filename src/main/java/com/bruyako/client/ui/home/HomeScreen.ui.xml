@@ -1,7 +1,7 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'>
-    <ui:with field='res' type="com.bruyako.client.ui.home.HomeResources"/>
-    <ui:with field='strings' type="com.bruyako.client.ui.home.HomeStrings"/>
+    <ui:with field='res' type="com.bruyako.client.ui.home.resources.raw.HomeResources"/>
+    <ui:with field='strings' type="com.bruyako.client.ui.home.resources.string.HomeStrings"/>
 
     <g:DockLayoutPanel unit="EM" height="100%">
         <g:north size="12">

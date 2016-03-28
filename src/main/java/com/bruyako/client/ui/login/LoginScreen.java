@@ -2,7 +2,8 @@ package com.bruyako.client.ui.login;
 
 import com.bruyako.client.MainRpcService;
 import com.bruyako.client.MainRpcServiceAsync;
-import com.bruyako.shared.User;
+import com.bruyako.client.ui.login.resources.raw.LoginResources;
+import com.bruyako.client.ui.login.resources.string.LoginStrings;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -67,14 +68,21 @@ public class LoginScreen extends Composite {
     private void tryLoginUser() {
         if (isAuthValid()) {
 
+            final PopupPanel popup = new PopupPanel(false, true);
+            popup.add(new Label(loginStrings.authorization()));
+            popup.setGlassEnabled(true);
+            popup.center();
+
             gwtService.getLoggedinUserName(loginBox.getText(), passwordBox.getText(), new AsyncCallback<String>() {
                 @Override
                 public void onFailure(Throwable caught) {
+                    popup.hide();
                     Window.alert(loginStrings.unknown());
                 }
 
                 @Override
                 public void onSuccess(String userName) {
+                    popup.hide();
                     callBack.onUserLogin(userName);
                 }
             });

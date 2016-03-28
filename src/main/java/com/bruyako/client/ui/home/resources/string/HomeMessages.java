@@ -1,4 +1,4 @@
-package com.bruyako.client.ui.home;
+package com.bruyako.client.ui.home.resources.string;
 
 import com.google.gwt.i18n.client.Messages;
 

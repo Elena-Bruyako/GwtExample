@@ -14,6 +14,16 @@
         <url-pattern>/main/remoteService</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>remoteLoggingServlet</servlet-name>
+        <servlet-class>com.bruyako.server.AppRemoteLogging</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>remoteLoggingServlet</servlet-name>
+        <url-pattern>/main/remote_logging</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>Main.html</welcome-file>
     </welcome-file-list>
