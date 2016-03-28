@@ -1,6 +1,7 @@
 package com.bruyako.server;
 
 import com.bruyako.client.MainRpcService;
+import com.bruyako.client.model.UserDto;
 import com.bruyako.server.repository.UserRepository;
 import com.bruyako.server.util.BCrypt;
 import com.bruyako.shared.User;
@@ -20,11 +21,11 @@ public class HomeServlet extends RemoteServiceServlet implements MainRpcService 
     private UserRepository userRepository = new UserRepository();
 
     @Override
-    public String getLoggedinUserName(String login, String password) throws UsernameNotFoundException {
+    public String getLoggedinUserName(UserDto userDto) throws UsernameNotFoundException {
 
-        User user = getUserByLogin(login);
+        User user = getUserByLogin(userDto.getLogin());
 
-        if (BCrypt.checkpw(password, user.getPassword())) {
+        if (BCrypt.checkpw(userDto.getPassword(), user.getPassword())) {
             return user.getName();
         }
         throw new UsernameNotFoundException();

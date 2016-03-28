@@ -2,8 +2,13 @@ package com.bruyako.client.ui.login;
 
 import com.bruyako.client.MainRpcService;
 import com.bruyako.client.MainRpcServiceAsync;
+import com.bruyako.client.exception.EmptyLoginException;
+import com.bruyako.client.exception.EmptyLoginPasswordException;
+import com.bruyako.client.exception.EmptyPasswordException;
+import com.bruyako.client.model.UserDto;
 import com.bruyako.client.ui.login.resources.raw.LoginResources;
 import com.bruyako.client.ui.login.resources.string.LoginStrings;
+import com.bruyako.client.utils.LoginValidator;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -66,42 +71,40 @@ public class LoginScreen extends Composite {
     }
 
     private void tryLoginUser() {
-        if (isAuthValid()) {
+        try {
+            UserDto userDto = new UserDto(loginBox.getText(), passwordBox.getText());
 
-            final PopupPanel popup = new PopupPanel(false, true);
-            popup.add(new Label(loginStrings.authorization()));
-            popup.setGlassEnabled(true);
-            popup.center();
+            if(LoginValidator.isValidUserData(userDto))
+                loginUser(userDto);
 
-            gwtService.getLoggedinUserName(loginBox.getText(), passwordBox.getText(), new AsyncCallback<String>() {
-                @Override
-                public void onFailure(Throwable caught) {
-                    popup.hide();
-                    Window.alert(loginStrings.unknown());
-                }
-
-                @Override
-                public void onSuccess(String userName) {
-                    popup.hide();
-                    callBack.onUserLogin(userName);
-                }
-            });
-
-        } else {
-            Window.alert(loginStrings.invalid());
+        } catch (EmptyLoginException e){
+            Window.alert(loginStrings.emptyLogin());
+        } catch (EmptyPasswordException e){
+            Window.alert(loginStrings.emptyPassword());
+        } catch (EmptyLoginPasswordException e){
+            Window.alert(loginStrings.emptyLoginPassword());
         }
     }
 
-    private boolean isAuthValid(){
-        return isValidPassword() && isValidUserName();
-    }
+    private void loginUser(UserDto userDto){
+        final PopupPanel popup = new PopupPanel(false, true);
+        popup.add(new Label(loginStrings.authorization()));
+        popup.setGlassEnabled(true);
+        popup.center();
 
-    private boolean isValidUserName(){
-        return loginBox.getText().length() > 0;
-    }
+        gwtService.getLoggedinUserName(userDto, new AsyncCallback<String>() {
+            @Override
+            public void onFailure(Throwable caught) {
+                popup.hide();
+                Window.alert(loginStrings.unknown());
+            }
 
-    private boolean isValidPassword(){
-        return loginBox.getText().length() > 0;
+            @Override
+            public void onSuccess(String userName) {
+                popup.hide();
+                callBack.onUserLogin(userName);
+            }
+        });
     }
 
     public interface OnUserLoginCallBack {

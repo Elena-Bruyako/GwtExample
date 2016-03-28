@@ -1,6 +1,6 @@
 package com.bruyako.client;
 
-import com.bruyako.shared.User;
+import com.bruyako.client.model.UserDto;
 import com.bruyako.shared.UsernameNotFoundException;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -13,5 +13,5 @@ import java.util.List;
  */
 @RemoteServiceRelativePath("remoteService")
 public interface MainRpcService extends RemoteService {
-    String getLoggedinUserName(String login, String password) throws UsernameNotFoundException;
+    String getLoggedinUserName(UserDto userDto) throws UsernameNotFoundException;
 }

@@ -19,8 +19,14 @@ public interface LoginStrings extends Constants {
     @Key(value = "unknown")
     String unknown();
 
-    @Key(value = "invalid")
-    String invalid();
+    @Key(value = "emptyLogin")
+    String emptyLogin();
+
+    @Key(value = "emptyPassword")
+    String emptyPassword();
+
+    @Key(value = "emptyLoginPassword")
+    String emptyLoginPassword();
 
     @Key(value = "authorization")
     String authorization();
