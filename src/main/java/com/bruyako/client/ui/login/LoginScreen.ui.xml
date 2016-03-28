@@ -1,0 +1,61 @@
+<ui:UiBinder
+        xmlns:ui='urn:ui:com.google.gwt.uibinder'
+        xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+    <ui:with field='res' type="com.bruyako.client.ui.login.LoginResources"/>
+    <ui:with field='strings' type="com.bruyako.client.ui.login.LoginStrings"/>
+
+        <g:DockLayoutPanel unit="EM" height="100%">
+            <g:north size="12">
+                <g:FlowPanel>
+                    <g:Image resource='{res.logo}'/>
+                </g:FlowPanel>
+            </g:north>
+
+            <g:center>
+                <g:HTMLPanel>
+                    <g:HorizontalPanel width="100%">
+
+                        <g:Cell horizontalAlignment="ALIGN_CENTER">
+
+                            <g:VerticalPanel styleName="{res.style.blackText}">
+
+                                <g:Label text="{strings.login}"
+                                         styleName="{res.style.blackText}"/>
+
+                                <g:TextBox ui:field="loginBox"
+                                           styleName="{res.style.box}"/>
+
+                                <g:Label text="{strings.password}"
+                                         styleName="{res.style.blackText}"/>
+
+                                <g:PasswordTextBox ui:field="passwordBox"
+                                                   styleName="{res.style.box}"/>
+
+                                <g:HorizontalPanel verticalAlignment="middle">
+
+                                    <g:Button ui:field="buttonSubmit"
+                                              text="{strings.submit}"/>
+
+                                </g:HorizontalPanel>
+
+                                <g:Label ui:field="completionLabel1"
+                                         styleName="{res.style.blackText}" />
+
+                                <g:Label ui:field="completionLabel2"
+                                         styleName="{res.style.blackText}"/>
+
+                            </g:VerticalPanel>
+                        </g:Cell>
+                    </g:HorizontalPanel>
+                </g:HTMLPanel>
+            </g:center>
+
+            <g:south size="2">
+                <g:HorizontalPanel width="100%">
+                <g:Cell horizontalAlignment="ALIGN_CENTER">
+                    <g:Label>@ 2015 Ardas Group</g:Label>
+                </g:Cell>
+                </g:HorizontalPanel>
+            </g:south>
+        </g:DockLayoutPanel>
+</ui:UiBinder>
