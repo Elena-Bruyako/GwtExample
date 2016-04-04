@@ -2,6 +2,7 @@ package com.bruyako.client.ui.login;
 
 import com.bruyako.client.MainRpcService;
 import com.bruyako.client.MainRpcServiceAsync;
+import com.bruyako.client.events.UserLoginEvent;
 import com.bruyako.client.exception.EmptyLoginException;
 import com.bruyako.client.exception.EmptyLoginPasswordException;
 import com.bruyako.client.exception.EmptyPasswordException;
@@ -13,6 +14,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -24,7 +26,7 @@ import com.google.gwt.user.client.ui.*;
 /**
  * Created by brunyatko on 24.03.16.
  */
-public class LoginScreen extends Composite {
+public class LoginScreen extends Composite implements LoginView {
 
     @UiTemplate("LoginScreen.ui.xml")
     interface LoginScreenUiBinder extends UiBinder<Widget, LoginScreen> {
@@ -45,69 +47,53 @@ public class LoginScreen extends Composite {
     @UiField
     Label completionLabel2;
 
-    private OnUserLoginCallBack callBack;
+    private final SimpleEventBus eventBus;
+    private LoginPresenter presenter;
+    private final PopupPanel popup = new PopupPanel(false, true);
 
-    private final MainRpcServiceAsync gwtService = GWT.create(MainRpcService.class);
     private static LoginScreenUiBinder ourUiBinder = GWT.create(LoginScreenUiBinder.class);
-    LoginStrings loginStrings = GWT.create(LoginStrings.class);
 
-    public LoginScreen(OnUserLoginCallBack callBack) {
+    public LoginScreen(SimpleEventBus eventBus) {
         initWidget(ourUiBinder.createAndBindUi(this));
         this.res = GWT.create(LoginResources.class);
         res.style().ensureInjected();
 
-        this.callBack = callBack;
+        this.eventBus = eventBus;
+        presenter = new LoginPresenter(this);
     }
 
     @UiHandler("buttonSubmit")
     void doClickSubmit(ClickEvent event) {
-        tryLoginUser();
+        presenter.loginUser(loginBox.getText(), passwordBox.getText());
     }
 
     @UiHandler("passwordBox")
     void onKeyDown(KeyDownEvent event){
         if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER)
-            tryLoginUser();
+            presenter.loginUser(loginBox.getText(), passwordBox.getText());
     }
 
-    private void tryLoginUser() {
-        try {
-            UserDto userDto = new UserDto(loginBox.getText(), passwordBox.getText());
-
-            if(LoginValidator.isValidUserData(userDto))
-                loginUser(userDto);
-
-        } catch (EmptyLoginException e){
-            Window.alert(loginStrings.emptyLogin());
-        } catch (EmptyPasswordException e){
-            Window.alert(loginStrings.emptyPassword());
-        } catch (EmptyLoginPasswordException e){
-            Window.alert(loginStrings.emptyLoginPassword());
-        }
-    }
-
-    private void loginUser(UserDto userDto){
-        final PopupPanel popup = new PopupPanel(false, true);
+    @Override
+    public void showAuthorizationPopup(){
+        LoginStrings loginStrings = GWT.create(LoginStrings.class);
         popup.add(new Label(loginStrings.authorization()));
         popup.setGlassEnabled(true);
         popup.center();
-
-        gwtService.getLoggedinUserName(userDto, new AsyncCallback<String>() {
-            @Override
-            public void onFailure(Throwable caught) {
-                popup.hide();
-                Window.alert(loginStrings.unknown());
-            }
-
-            @Override
-            public void onSuccess(String userName) {
-                popup.hide();
-                callBack.onUserLogin(userName);
-            }
-        });
     }
 
-    public interface OnUserLoginCallBack {
-        public void onUserLogin(String userName);
+    @Override
+    public void hideAuthorizationPopup(){
+        popup.hide();
     }
+
+    @Override
+    public void showError(String error){
+        Window.alert(error);
+    }
+
+    @Override
+    public void userWasAuthorized(String userName){
+        eventBus.fireEvent(new UserLoginEvent(userName));
+    }
+
 }

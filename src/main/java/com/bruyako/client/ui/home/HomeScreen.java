@@ -1,8 +1,10 @@
 package com.bruyako.client.ui.home;
 
+import com.bruyako.client.events.UserLogoutEvent;
 import com.bruyako.client.ui.home.resources.string.HomeMessages;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -21,7 +23,7 @@ import java.util.logging.Logger;
 public class HomeScreen extends Composite {
 
     private String userName;
-    private OnUserLogoutCallBack listener;
+    private final SimpleEventBus eventBus;
     private final Logger logger = Logger.getLogger(HomeScreen.class.getName());
 
     @UiTemplate("HomeScreen.ui.xml")
@@ -34,9 +36,9 @@ public class HomeScreen extends Composite {
     private static HomeScreenUiBinder ourUiBinder = GWT.create(HomeScreenUiBinder.class);
     private static HomeMessages messages = GWT.create(HomeMessages.class);
 
-    public HomeScreen(OnUserLogoutCallBack listener, String userName) {
+    public HomeScreen(SimpleEventBus eventBus, String userName) {
         initWidget(ourUiBinder.createAndBindUi(this));
-        this.listener = listener;
+        this.eventBus = eventBus;
 
         this.userName = userName;
         helloText.setText(getLocalizableMessage(this.userName));
@@ -44,7 +46,7 @@ public class HomeScreen extends Composite {
 
     @UiHandler("buttonSubmit")
     void doClickSubmit(ClickEvent event) {
-        listener.onUserLogout(this.userName);
+        eventBus.fireEvent(new UserLogoutEvent(userName));
     }
 
     private String getLocalizableMessage(String userName) {
@@ -64,9 +66,5 @@ public class HomeScreen extends Composite {
             logger.log(Level.INFO, "Hello message was: " + messages.night(userName));
             return messages.night(userName);
         }
-    }
-
-    public interface OnUserLogoutCallBack {
-        public void onUserLogout(String userName);
     }
 }
