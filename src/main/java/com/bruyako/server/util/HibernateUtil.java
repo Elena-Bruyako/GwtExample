@@ -12,7 +12,7 @@ public class HibernateUtil {
 
     private static SessionFactory sessionFactory = buildSessionFactory();
 
-    protected static SessionFactory buildSessionFactory() {
+    public static SessionFactory buildSessionFactory() {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure()
                 .build();
@@ -26,11 +26,10 @@ public class HibernateUtil {
     }
 
     public static SessionFactory getSessionFactory() {
-        return sessionFactory == null ? buildSessionFactory() : sessionFactory;
+        return sessionFactory;
     }
 
     public static void shutdown() {
-        getSessionFactory().close();
-        sessionFactory = null;
+        sessionFactory.close();
     }
 }

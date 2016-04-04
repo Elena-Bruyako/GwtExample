@@ -24,8 +24,6 @@ public class UserRepository {
                 .uniqueResult();
 
         session.close();
-        HibernateUtil.shutdown();
-
         return user;
     }
 }
