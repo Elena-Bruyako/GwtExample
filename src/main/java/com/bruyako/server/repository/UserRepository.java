@@ -2,43 +2,30 @@ package com.bruyako.server.repository;
 
 import com.bruyako.server.util.HibernateUtil;
 import com.bruyako.shared.User;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
-
-import java.util.List;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 
 /**
  * Created by brunyatko on 24.03.16.
  */
-public class UserRepository extends BaseRepository <User> {
+public class UserRepository {
 
-    @Override
-    public User getById(int id) {
+    private SessionFactory sessionFactory;
+
+    public User getUserByLogin(String login) {
 
         sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();
 
-        User user = (User) session.createQuery("select u.id from User u where u.id=:id")
-                .setParameter("id", id);
+        Criteria criteria = session.createCriteria(User.class);
+        User user = (User) criteria.add(Restrictions.eq("login", login))
+                .uniqueResult();
 
         session.close();
         HibernateUtil.shutdown();
 
         return user;
     }
-
-    @Override
-    public List<User> getAll() {
-
-        sessionFactory = HibernateUtil.getSessionFactory();
-        Session session = sessionFactory.openSession();
-
-        List<User> users = session.createQuery("from User u")
-                .list();
-
-        session.close();
-        HibernateUtil.shutdown();
-
-        return users;
-    }
-
 }
