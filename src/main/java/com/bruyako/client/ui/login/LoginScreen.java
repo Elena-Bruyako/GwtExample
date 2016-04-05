@@ -49,9 +49,10 @@ public class LoginScreen extends Composite implements LoginView {
 
     private final SimpleEventBus eventBus;
     private LoginPresenter presenter;
-    private final PopupPanel popup = new PopupPanel(false, true);
+    private PopupPanel popup;
+    private LoginStrings loginStrings = GWT.create(LoginStrings.class);
 
-    private static LoginScreenUiBinder ourUiBinder = GWT.create(LoginScreenUiBinder.class);
+    private LoginScreenUiBinder ourUiBinder = GWT.create(LoginScreenUiBinder.class);
 
     public LoginScreen(SimpleEventBus eventBus) {
         initWidget(ourUiBinder.createAndBindUi(this));
@@ -75,7 +76,7 @@ public class LoginScreen extends Composite implements LoginView {
 
     @Override
     public void showAuthorizationPopup(){
-        LoginStrings loginStrings = GWT.create(LoginStrings.class);
+        popup = new PopupPanel(false, true);
         popup.add(new Label(loginStrings.authorization()));
         popup.setGlassEnabled(true);
         popup.center();

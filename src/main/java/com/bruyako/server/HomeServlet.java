@@ -36,6 +36,9 @@ public class HomeServlet extends RemoteServiceServlet implements MainRpcService 
 
         User user = getUserByLogin(userDto.getLogin());
 
+        if(user == null)
+            throw new UsernameNotFoundException();
+
         if (BCrypt.checkpw(userDto.getPassword(), user.getPassword())) {
             return user.getName();
         }
