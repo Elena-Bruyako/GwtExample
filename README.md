@@ -3,7 +3,7 @@
 # GwtExample
 
 GwtExample is a simple GWT project, which can show you, how easy you can implement interactions
-between base GWT components. This project use Maven, and could be deploy on Apache Tomcat.
+between base GWT components. This project uses Maven, and could be deploy on Apache Tomcat.
 
 Also this project shows simple implementation of MVP pattern (Model View Presenter) in client part.
 
