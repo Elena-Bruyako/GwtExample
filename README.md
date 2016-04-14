@@ -9,3 +9,7 @@ Also this project shows simple implementation of MVP pattern (Model View Present
 
 Please do not forget add GWT compilation phase during making WAR file, if you plan use deploying from WAR file.
 
+Technology stack:
+- GWT
+- Hibernate
+- PowerMockito
